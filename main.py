@@ -29,8 +29,13 @@ url_a = f'https://api.securitytrails.com/v1/history/{domain}/dns/a'
 
 response_a = requests.get(url_a, headers=headers)
 
-for record in response_a.json()['records']:
-    print(green+'A:', blue+record['values'][0]['ip'], '   ', white+record['first_seen']+'\x1b[0m', '--->', white+record['last_seen']+'\x1b[0m')
+try:
+    for record in response_a.json()['records']:
+        ip = record['values'][0]['ip']
+        align = 15 - len(str(ip))
+        print(green+'A:', blue+ip, align*' ', white+record['first_seen']+'\x1b[0m', '--->', white+record['last_seen']+'\x1b[0m')
+except:
+    print('Some error')
 
 print()
 
