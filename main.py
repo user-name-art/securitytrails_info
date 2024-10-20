@@ -2,7 +2,7 @@ import requests
 import sys
 import os
 from dotenv import load_dotenv
-from pprint import pprint
+#from pprint import pprint
 
 
 load_dotenv()
@@ -34,10 +34,10 @@ for record in response_a.json()['records']:
 
 print()
 
-url_ns = f'https://api.securitytrails.com/v1/history/{domain}/dns/ns'
+#url_ns = f'https://api.securitytrails.com/v1/history/{domain}/dns/ns'
 
-response_ns = requests.get(url_ns, headers=headers)
+#response_ns = requests.get(url_ns, headers=headers)
 
-for record in response_ns.json()['records']:
-    pprint(record)
-    print()
+#for record in response_ns.json()['records']:
+#    pprint(record)
+#    print()
