@@ -47,6 +47,8 @@ alias sec="/home/username/scripts/securitytrails_info/.venv/bin/python /home/use
 
 ### Работа со скриптом
 
+![photo_2024-10-22_10-54-40](https://github.com/user-attachments/assets/e60fde36-2f79-4ecf-890f-f7a9e46795d3)
+
 Пока что скрипт может выводить только историю IP-адресов для указанного домена. 
 
 ```
