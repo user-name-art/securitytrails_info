@@ -14,7 +14,6 @@ green = '\x1b[1;32m'
 yellow = '\x1b[1;33m'
 blue = '\x1b[1;34m'
 pink = '\x1b[1;35m'
-light_blue = '\x1b[1;36m'
 white = '\x1b[1;37m'
 
 
@@ -30,14 +29,14 @@ url_a = f'https://api.securitytrails.com/v1/history/{domain}/dns/a'
 response_a = requests.get(url_a, headers=headers)
 
 try:
-    for record in response_a.json()['records']:
-        ip = record['values'][0]['ip']
-        align = 15 - len(str(ip))
-        print(green+'A:', blue+ip, align*' ', white+record['first_seen']+'\x1b[0m', '--->', white+record['last_seen']+'\x1b[0m')
+    for records in response_a.json()['records']:
+        for record in records['values']:
+            ip = record['ip']
+            align = 15 - len(str(ip))
+            print(green+'A:', blue+ip, align*' ', white+records['first_seen']+'\x1b[0m', '--->', white+records['last_seen']+'\x1b[0m', red+records['organizations'][0]+'\x1b[0m')
+        print()
 except:
     print('Some error')
-
-print()
 
 #url_ns = f'https://api.securitytrails.com/v1/history/{domain}/dns/ns'
 
