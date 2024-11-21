@@ -35,7 +35,7 @@ def print_domain_history(domain_history, field):
 
 def main():
     load_dotenv()
-    api_key = os.environ.get('API_KEY_REGRU')
+    api_key = os.environ.get('API_KEY')
 
     headers = {
         "accept": "application/json",
