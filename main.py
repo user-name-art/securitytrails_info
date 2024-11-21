@@ -1,12 +1,7 @@
 import requests
-import sys
 import os
+import argparse
 from dotenv import load_dotenv
-#from pprint import pprint
-
-
-load_dotenv()
-api_key = os.environ.get('API_KEY')
 
 
 red = '\x1b[1;31m'
@@ -16,32 +11,55 @@ blue = '\x1b[1;34m'
 pink = '\x1b[1;35m'
 white = '\x1b[1;37m'
 
-
-domain = sys.argv[1]
-
-headers = {
-    "accept": "application/json",
-    "APIKEY": api_key
+avaliable_record_types = {
+    'a': 'ip',
+    'ns': 'nameserver',
+    'mx': 'host'
 }
 
-url_a = f'https://api.securitytrails.com/v1/history/{domain}/dns/a'
 
-response_a = requests.get(url_a, headers=headers)
+def request_info(url, headers):
+    response = requests.get(url, headers=headers)
+    response.raise_for_status()
+    return response.json()
 
-try:
-    for records in response_a.json()['records']:
+
+def print_domain_history(domain_history, field):
+    for records in domain_history['records']:
         for record in records['values']:
-            ip = record['ip']
-            align = 15 - len(str(ip))
-            print(green+'A:', blue+ip, align*' ', white+records['first_seen']+'\x1b[0m', '--->', white+records['last_seen']+'\x1b[0m', red+records['organizations'][0]+'\x1b[0m')
+            ip = record[field]
+            print(green+'A:', blue+ip, '  ', white+records['first_seen']+'\x1b[0m', '--->', white+records['last_seen']+'\x1b[0m', '  ', yellow+records['organizations'][0]+'\x1b[0m')
         print()
-except:
-    print('Some error')
 
-#url_ns = f'https://api.securitytrails.com/v1/history/{domain}/dns/ns'
 
-#response_ns = requests.get(url_ns, headers=headers)
+def main():
+    load_dotenv()
+    api_key = os.environ.get('API_KEY_REGRU')
 
-#for record in response_ns.json()['records']:
-#    pprint(record)
-#    print()
+    headers = {
+        "accept": "application/json",
+        "APIKEY": api_key
+    }
+
+    parser = argparse.ArgumentParser(description='Скрипт запрашивает историю домена с securitytrails.com')
+    parser.add_argument('domain', type=str, help='Домен')
+    parser.add_argument('record_type', type=str, nargs='?', default='a', help='Тип записи')
+
+    domain = parser.parse_args().domain
+    record_type = parser.parse_args().record_type
+    url = f'https://api.securitytrails.com/v1/history/{domain}/dns/{record_type}'
+
+    if record_type in avaliable_record_types.keys():
+        try:
+            domain_history = request_info(url=url, headers=headers)
+            field = avaliable_record_types[record_type]
+            print_domain_history(domain_history=domain_history, field=field)
+        except requests.exceptions.HTTPError as error:
+            print(red+'Что-то пошло не так:'+'\x1b[0m')
+            print(error)
+    else:
+        print('Данный тип записи не поддерживается.')
+
+
+if __name__ == '__main__':
+    main()
