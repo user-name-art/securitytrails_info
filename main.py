@@ -4,11 +4,12 @@ import argparse
 from dotenv import load_dotenv
 
 
+VERSION = 'v1.00'
+
 red = '\x1b[1;31m'
 green = '\x1b[1;32m'
 yellow = '\x1b[1;33m'
 blue = '\x1b[1;34m'
-pink = '\x1b[1;35m'
 white = '\x1b[1;37m'
 
 avaliable_record_types = {
@@ -27,8 +28,8 @@ def request_info(url, headers):
 def print_domain_history(domain_history, field):
     for records in domain_history['records']:
         for record in records['values']:
-            ip = record[field]
-            print(green+'A:', blue+ip, '  ', white+records['first_seen']+'\x1b[0m', '--->', white+records['last_seen']+'\x1b[0m', '  ', yellow+records['organizations'][0]+'\x1b[0m')
+            type = record[field]
+            print(green+type+':', blue+ip, '  ', white+records['first_seen']+'\x1b[0m', '--->', white+records['last_seen']+'\x1b[0m', '  ', yellow+records['organizations'][0]+'\x1b[0m')
         print()
 
 
@@ -41,9 +42,9 @@ def main():
         "APIKEY": api_key
     }
 
-    parser = argparse.ArgumentParser(description='Скрипт запрашивает историю домена с securitytrails.com')
-    parser.add_argument('domain', type=str, help='Домен')
-    parser.add_argument('record_type', type=str, nargs='?', default='a', help='Тип записи')
+    parser = argparse.ArgumentParser(prog='alias_name', description=f'Script for securitytrails {VERSION}')
+    parser.add_argument('domain', type=str, help='Домен (без слэшей и протоколов)')
+    parser.add_argument('record_type', type=str, nargs='?', default='a', help='Тип записи A, NS или MX')
 
     domain = parser.parse_args().domain
     record_type = parser.parse_args().record_type
