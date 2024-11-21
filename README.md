@@ -38,7 +38,9 @@ pip install -r requirements.txt
 pip install urllib3==1.26.15
 ```
 
-Переименуйте .env.template в .env, откройте его и измените API-ключ на свой (получить можно на securitytrails.com, для этого нужно зарегистрироваться, на почту gmail регистрирует нормально).
+Переименуйте .env.template в .env, откройте его и измените API-ключ на свой (получить можно на securitytrails.com, для этого нужно зарегистрироваться, на почту gmail регистрирует нормально). По API с одним ключом можно сделать 50 запросов в месяц, счетчик сбрасывается в первый день нового месяца.
+
+![0](https://github.com/user-attachments/assets/a14bb112-8594-40c9-83d8-e094c9524656)
 
 Создайте алиас в .bashrc (или в .zshrc):
 
@@ -53,7 +55,7 @@ alias sec="/home/username/scripts/securitytrails_info/.venv/bin/python /home/use
 
 ### Работа со скриптом
 
-
+![00](https://github.com/user-attachments/assets/b978eb44-16cc-43b1-9e8d-b73ffb04b34e)
 
 Скрипт умеет выводить только историю ресурсных записей A, NS и MX для указанного домена. По умолчяанию без указания дополнительных аргументов выводится история по записям A.
 
