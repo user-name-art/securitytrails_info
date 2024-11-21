@@ -29,7 +29,7 @@ def print_domain_history(domain_history, field):
     for records in domain_history['records']:
         for record in records['values']:
             type = record[field]
-            print(green+type+':', blue+ip, '  ', white+records['first_seen']+'\x1b[0m', '--->', white+records['last_seen']+'\x1b[0m', '  ', yellow+records['organizations'][0]+'\x1b[0m')
+            print(green+type+':', blue+type, '  ', white+records['first_seen']+'\x1b[0m', '--->', white+records['last_seen']+'\x1b[0m', '  ', yellow+records['organizations'][0]+'\x1b[0m')
         print()
 
 
