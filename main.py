@@ -25,11 +25,11 @@ def request_info(url, headers):
     return response.json()
 
 
-def print_domain_history(domain_history, field):
+def print_domain_history(domain_history, field, record_type):
     for records in domain_history['records']:
         for record in records['values']:
             type = record[field]
-            print(green+type+':', blue+type, '  ', white+records['first_seen']+'\x1b[0m', '--->', white+records['last_seen']+'\x1b[0m', '  ', yellow+records['organizations'][0]+'\x1b[0m')
+            print(green+record_type+':', blue+type, '  ', white+records['first_seen']+'\x1b[0m', '--->', white+records['last_seen']+'\x1b[0m', '  ', yellow+records['organizations'][0]+'\x1b[0m')
         print()
 
 
@@ -54,7 +54,7 @@ def main():
         try:
             domain_history = request_info(url=url, headers=headers)
             field = avaliable_record_types[record_type]
-            print_domain_history(domain_history=domain_history, field=field)
+            print_domain_history(domain_history=domain_history, field=field, record_type=record_type)
         except requests.exceptions.HTTPError as error:
             print(red+'Что-то пошло не так:'+'\x1b[0m')
             print(error)
