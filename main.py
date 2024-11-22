@@ -26,11 +26,14 @@ def request_info(url, headers):
 
 
 def print_domain_history(domain_history, field, record_type):
-    for records in domain_history['records']:
-        for record in records['values']:
-            type = record[field]
-            print(green+record_type+':', blue+type, '  ', white+records['first_seen']+'\x1b[0m', '--->', white+records['last_seen']+'\x1b[0m', '  ', yellow+records['organizations'][0]+'\x1b[0m')
-        print()
+    if domain_history['records']:
+        for records in domain_history['records']:
+            for record in records['values']:
+                type = record[field]
+                print(green+record_type+':', blue+type, '  ', white+records['first_seen']+'\x1b[0m', '--->', white+records['last_seen']+'\x1b[0m', '  ', yellow+records['organizations'][0]+'\x1b[0m')
+            print()
+    else:
+        print('По этому домену информации нет.')
 
 
 def main():
