@@ -4,7 +4,7 @@ import argparse
 from dotenv import load_dotenv
 
 
-VERSION = 'v1.01'
+VERSION = 'v1.02'
 
 # кастомизация подсветки
 red = '\x1b[1;31m'
@@ -36,7 +36,7 @@ def print_domain_history(domain_history, field, record_type):
             for record in records['values']:
                 print()
                 type = record[field]
-                if record_type == 'txt':
+                if record_type == 'txt':    # Ответ для TXT немного другой, поэтому проверяем тип записи перед выводом.
                     print(green+record_type+':', blue+type, '  ', white+records['first_seen']+'\x1b[0m', '--->', white+records['last_seen'])
                 else:
                     print(green+record_type+':', blue+type, '  ', white+records['first_seen']+'\x1b[0m', '--->', white+records['last_seen']+'\x1b[0m', '  ', yellow+records['organizations'][0]+'\x1b[0m')
@@ -56,7 +56,7 @@ def main():
 
     parser = argparse.ArgumentParser(prog='alias_name', description=f'Script for securitytrails {VERSION}')
     parser.add_argument('domain', type=str, help='Домен (без слэшей и протоколов)')
-    parser.add_argument('record_type', type=str, nargs='?', default='a', help='Тип записи (A, NS или MX)')
+    parser.add_argument('record_type', type=str, nargs='?', default='a', help='Тип записи (A, NS, MX или TXT)')
 
     domain = parser.parse_args().domain
     record_type = parser.parse_args().record_type
