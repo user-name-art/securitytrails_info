@@ -1,10 +1,11 @@
+import re
 import requests
 import os
 import argparse
 from dotenv import load_dotenv
 
 
-VERSION = 'v1.02'
+VERSION = 'v1.03'
 
 # кастомизация подсветки
 red = '\x1b[1;31m'
@@ -20,6 +21,16 @@ avaliable_record_types = {
     'mx': 'host',
     'txt': 'value'
 }
+
+
+# Проверяем кириллические символы и, при необходимости, конвертируем в Punycode.
+def check_сyrillic(domain):
+    сyrillic_symbols = re.findall(r'[А-яЁё]+', domain)
+
+    if сyrillic_symbols:
+        return domain.encode('idna').decode()
+    else:
+        return domain
 
 
 # Функция делает запрос к securitytrails и получает ответ.
@@ -58,7 +69,7 @@ def main():
     parser.add_argument('domain', type=str, help='Домен (без слэшей и протоколов)')
     parser.add_argument('record_type', type=str, nargs='?', default='a', help='Тип записи (A, NS, MX или TXT)')
 
-    domain = parser.parse_args().domain
+    domain = check_сyrillic(parser.parse_args().domain)
     record_type = parser.parse_args().record_type
     url = f'https://api.securitytrails.com/v1/history/{domain}/dns/{record_type}'  # Формируем ссылку для запроса.
 
