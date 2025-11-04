@@ -17,7 +17,8 @@ white = '\x1b[1;37m'
 avaliable_record_types = {
     'a': 'ip',
     'ns': 'nameserver',
-    'mx': 'host'
+    'mx': 'host',
+    'txt': 'value'
 }
 
 
@@ -33,9 +34,13 @@ def print_domain_history(domain_history, field, record_type):
     if domain_history['records']:
         for records in domain_history['records']:
             for record in records['values']:
+                print()
                 type = record[field]
-                print(green+record_type+':', blue+type, '  ', white+records['first_seen']+'\x1b[0m', '--->', white+records['last_seen']+'\x1b[0m', '  ', yellow+records['organizations'][0]+'\x1b[0m')
-            print()
+                if record_type == 'txt':
+                    print(green+record_type+':', blue+type, '  ', white+records['first_seen']+'\x1b[0m', '--->', white+records['last_seen'])
+                else:
+                    print(green+record_type+':', blue+type, '  ', white+records['first_seen']+'\x1b[0m', '--->', white+records['last_seen']+'\x1b[0m', '  ', yellow+records['organizations'][0]+'\x1b[0m')
+        print()
     else:
         print('По этому домену информации нет.')
 
