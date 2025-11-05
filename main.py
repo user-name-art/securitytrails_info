@@ -44,8 +44,8 @@ def request_info(url, headers):
 def print_domain_history(domain_history, field, record_type):
     if domain_history['records']:
         for records in domain_history['records']:
+            print()
             for record in records['values']:
-                print()
                 type = record[field]
                 if record_type == 'txt':    # Ответ для TXT немного другой, поэтому проверяем тип записи перед выводом.
                     print(green+record_type+':', blue+type, '  ', white+records['first_seen']+'\x1b[0m', '--->', white+records['last_seen'])
